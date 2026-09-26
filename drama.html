@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Vidzora - Drama</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#08080b;
+    color:#fff;
+    min-height:100vh;
+}
+
+header{
+    height:62px;
+    background:rgba(8,8,11,.95);
+    border-bottom:1px solid #222228;
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.logo{
+    font-size:27px;
+    font-weight:900;
+    color:#ff1744;
+}
+
+.logo span{
+    color:#fff;
+}
+
+.back{
+    margin-left:auto;
+    background:#202027;
+    border:0;
+    color:#fff;
+    padding:9px 14px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.container{
+    max-width:1050px;
+    margin:auto;
+}
+
+.hero{
+    position:relative;
+    min-height:470px;
+    background:#111;
+    overflow:hidden;
+}
+
+.hero-bg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:.38;
+    filter:blur(1px);
+}
+
+.hero-gradient{
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            to top,
+            #08080b 0%,
+            rgba(8,8,11,.75) 38%,
+            rgba(8,8,11,.15) 100%
+        );
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    min-height:470px;
+    padding:35px 18px;
+    display:flex;
+    align-items:flex-end;
+    gap:22px;
+}
+
+.poster{
+    width:180px;
+    height:260px;
+    object-fit:cover;
+    border-radius:10px;
+    box-shadow:0 15px 35px #000;
+    flex-shrink:0;
+}
+
+.info{
+    padding-bottom:10px;
+}
+
+.title{
+    font-size:36px;
+    font-weight:900;
+    margin-bottom:9px;
+}
+
+.meta{
+    color:#bbb;
+    font-size:14px;
+    margin-bottom:12px;
+}
+
+.description{
+    color:#ddd;
+    line-height:1.6;
+    max-width:650px;
+    font-size:14px;
+}
+
+.tags{
+    margin-top:13px;
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+}
+
+.tag{
+    border:1px solid #44444c;
+    color:#ddd;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.content{
+    padding:22px 16px 50px;
+}
+
+.section-title{
+    font-size:23px;
+    font-weight:900;
+    margin-bottom:14px;
+}
+
+.password-box{
+    max-width:520px;
+    margin:30px auto;
+    background:#111116;
+    border:1px solid #2b2b32;
+    border-radius:16px;
+    padding:22px;
+    text-align:center;
+}
+
+.password-box h2{
+    margin-bottom:8px;
+}
+
+.password-box p{
+    color:#999;
+    font-size:13px;
+    line-height:1.5;
+    margin-bottom:16px;
+}
+
+.password-box input{
+    width:100%;
+    background:#08080b;
+    border:1px solid #33333b;
+    color:#fff;
+    padding:14px;
+    border-radius:9px;
+    outline:none;
+    margin-bottom:10px;
+}
+
+.password-box input:focus{
+    border-color:#ff1744;
+}
+
+.btn{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:9px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.youtube{
+    background:#ff1744;
+    color:#fff;
+    margin-bottom:9px;
+}
+
+.unlock{
+    background:#24242b;
+    color:#fff;
+}
+
+.error{
+    color:#ff5874;
+    margin-top:10px;
+    font-size:13px;
+}
+
+#episodesArea{
+    display:none;
+}
+
+.season{
+    background:#111116;
+    border:1px solid #28282f;
+    border-radius:13px;
+    margin-bottom:15px;
+    overflow:hidden;
+}
+
+.season-header{
+    width:100%;
+    background:#15151b;
+    color:#fff;
+    border:0;
+    padding:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:17px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.arrow{
+    color:#ff1744;
+    font-size:18px;
+}
+
+.episode-list{
+    padding:7px 10px 10px;
+}
+
+.episode{
+    display:flex;
+    gap:12px;
+    padding:12px 4px;
+    border-bottom:1px solid #25252b;
+    align-items:center;
+}
+
+.episode:last-child{
+    border-bottom:0;
+}
+
+.episode-thumb{
+    width:145px;
+    height:82px;
+    object-fit:cover;
+    border-radius:7px;
+    background:#222;
+    flex-shrink:0;
+}
+
+.episode-info{
+    flex:1;
+    min-width:0;
+}
+
+.episode-title{
+    font-size:15px;
+    font-weight:900;
+    margin-bottom:5px;
+}
+
+.episode-meta{
+    color:#999;
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+.episode-description{
+    color:#aaa;
+    font-size:12px;
+    line-height:1.4;
+}
+
+.watch{
+    background:#ff1744;
+    color:#fff;
+    border:0;
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:900;
+    white-space:nowrap;
+    cursor:pointer;
+}
+
+.loading{
+    text-align:center;
+    color:#999;
+    padding:40px;
+}
+
+.hidden{
+    display:none !important;
+}
+
+@media(max-width:700px){
+
+    .hero{
+        min-height:530px;
+    }
+
+    .hero-content{
+        min-height:530px;
+        flex-direction:column;
+        align-items:center;
+        justify-content:flex-end;
+        text-align:center;
+        padding:25px 15px;
+    }
+
+    .poster{
+        width:155px;
+        height:225px;
+    }
+
+    .title{
+        font-size:29px;
+    }
+
+    .tags{
+        justify-content:center;
+    }
+
+    .episode{
+        align-items:flex-start;
+    }
+
+    .episode-thumb{
+        width:105px;
+        height:65px;
+    }
+
+    .episode-info{
+        min-width:0;
+    }
+
+    .episode-description{
+        display:none;
+    }
+
+    .watch{
+        padding:9px 11px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Vidzora<span>.</span>
+    </div>
+
+    <button class="back" onclick="location.href='index.html'">
+        ← Home
+    </button>
+
+</header>
+
+
+<div id="loading" class="loading">
+    Loading drama...
+</div>
+
+
+<div id="main" class="hidden">
+
+    <div class="hero">
+
+        <img id="heroBg" class="hero-bg">
+
+        <div class="hero-gradient"></div>
+
+        <div class="container hero-content">
+
+            <img id="poster" class="poster">
+
+            <div class="info">
+
+                <h1 id="title" class="title"></h1>
+
+                <div id="meta" class="meta"></div>
+
+                <p id="description" class="description"></p>
+
+                <div id="tags" class="tags"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="container content">
+
+        <!-- PASSWORD -->
+        <div id="passwordBox" class="password-box">
+
+            <h2>🔐 Unlock Drama</h2>
+
+            <p>
+                Get the password from the YouTube video,
+                then enter it below to unlock all episodes.
+            </p>
+
+            <button
+                id="youtubeBtn"
+                class="btn youtube"
+                onclick="getPassword()">
+                ▶ Get Password
+            </button>
+
+            <input
+                id="passwordInput"
+                type="password"
+                placeholder="Enter drama password">
+
+            <button
+                class="btn unlock"
+                onclick="unlockDrama()">
+                🔓 Unlock Drama
+            </button>
+
+            <div id="passwordError" class="error"></div>
+
+        </div>
+
+
+        <!-- EPISODES -->
+        <div id="episodesArea">
+
+            <div class="section-title">
+                📺 Episodes
+            </div>
+
+            <div id="seasons"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://qcqdduvrhqipcuqhlrhs.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_u2Cf_WlnX6jK6YuxNYuK9g_rYHpDo8o";
+
+const supabaseClient =
+supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+const dramaId =
+new URLSearchParams(location.search).get("id");
+
+let drama = null;
+let episodes = [];
+
+
+async function loadDrama(){
+
+    if(!dramaId){
+
+        document.getElementById("loading").textContent =
+            "Drama not found.";
+
+        return;
+    }
+
+
+    const {data,error} =
+        await supabaseClient
+        .from("dramas")
+        .select("*")
+        .eq("id",dramaId)
+        .single();
+
+
+    if(error || !data){
+
+        document.getElementById("loading").textContent =
+            "Drama not found.";
+
+        console.error(error);
+
+        return;
+    }
+
+
+    drama = data;
+
+
+    document.getElementById("title").textContent =
+        drama.title || "Untitled Drama";
+
+
+    document.getElementById("poster").src =
+        drama.poster || "";
+
+
+    document.getElementById("heroBg").src =
+        drama.banner ||
+        drama.poster ||
+        "";
+
+
+    document.getElementById("description").textContent =
+        drama.description ||
+        "No description available.";
+
+
+    let meta = [];
+
+    if(drama.year){
+        meta.push(drama.year);
+    }
+
+    if(drama.genre){
+        meta.push(drama.genre);
+    }
+
+    if(drama.status){
+        meta.push(drama.status);
+    }
+
+    document.getElementById("meta").textContent =
+        meta.join(" • ");
+
+
+    const tags =
+        document.getElementById("tags");
+
+    tags.innerHTML = "";
+
+    if(drama.genre){
+
+        drama.genre
+            .split(",")
+            .map(x => x.trim())
+            .filter(Boolean)
+            .forEach(g => {
+
+                const span =
+                    document.createElement("span");
+
+                span.className = "tag";
+                span.textContent = g;
+
+                tags.appendChild(span);
+            });
+    }
+
+
+    document.getElementById("loading")
+        .classList.add("hidden");
+
+    document.getElementById("main")
+        .classList.remove("hidden");
+}
+
+
+async function getPassword(){
+
+    if(!drama || !drama.password_youtube_url){
+
+        alert(
+            "Password video is not available yet."
+        );
+
+        return;
+    }
+
+
+    await openAd("ADS-02");
+
+    window.open(
+        drama.password_youtube_url,
+        "_blank"
+    );
+}
+
+
+async function unlockDrama(){
+
+    const input =
+        document.getElementById("passwordInput");
+
+    const error =
+        document.getElementById("passwordError");
+
+    const password =
+        input.value.trim();
+
+
+    error.textContent = "";
+
+
+    if(!password){
+
+        error.textContent =
+            "Please enter the password.";
+
+        return;
+    }
+
+
+    const {data,error:rpcError} =
+        await supabaseClient.rpc(
+            "verify_drama_password",
+            {
+                p_drama_id:parseInt(dramaId),
+                p_password:password
+            }
+        );
+
+
+    if(rpcError){
+
+        console.error(rpcError);
+
+        error.textContent =
+            "Password verification failed.";
+
+        return;
+    }
+
+
+    if(data !== true){
+
+        error.textContent =
+            "Incorrect password.";
+
+        return;
+    }
+
+
+    await openAd("ADS-01");
+
+
+    document.getElementById("passwordBox")
+        .classList.add("hidden");
+
+    document.getElementById("episodesArea")
+        .style.display = "block";
+
+
+    await loadEpisodes();
+}
+
+
+async function loadEpisodes(){
+
+    const box =
+        document.getElementById("seasons");
+
+    box.innerHTML =
+        `<div class="loading">Loading episodes...</div>`;
+
+
+    const {data,error} =
+        await supabaseClient
+        .from("episodes")
+        .select(`
+            id,
+            drama_id,
+            season_number,
+            episode_number,
+            title,
+            thumbnail,
+            video_url,
+            duration,
+            description
+        `)
+        .eq("drama_id",dramaId)
+        .order("season_number",{ascending:true})
+        .order("episode_number",{ascending:true});
+
+
+    if(error){
+
+        console.error(error);
+
+        box.innerHTML =
+            `<div class="loading">${escapeHtml(error.message)}</div>`;
+
+        return;
+    }
+
+
+    episodes = data || [];
+
+
+    if(!episodes.length){
+
+        box.innerHTML =
+            `<div class="loading">
+                No episodes available yet.
+            </div>`;
+
+        return;
+    }
+
+
+    const seasons = {};
+
+
+    episodes.forEach(ep => {
+
+        const season =
+            ep.season_number || 1;
+
+        if(!seasons[season]){
+            seasons[season] = [];
+        }
+
+        seasons[season].push(ep);
+    });
+
+
+    box.innerHTML = "";
+
+
+    Object.keys(seasons)
+        .sort((a,b) => Number(a)-Number(b))
+        .forEach((seasonNumber,index) => {
+
+            const section =
+                document.createElement("div");
+
+            section.className = "season";
+
+
+            const header =
+                document.createElement("button");
+
+            header.className =
+                "season-header";
+
+            header.innerHTML = `
+                <span>
+                    Season ${seasonNumber}
+                    <small style="color:#888;font-size:12px;">
+                        (${seasons[seasonNumber].length} Episodes)
+                    </small>
+                </span>
+
+                <span class="arrow">
+                    ${index === 0 ? "▲" : "▼"}
+                </span>
+            `;
+
+
+            const list =
+                document.createElement("div");
+
+            list.className =
+                "episode-list";
+
+
+            if(index !== 0){
+                list.style.display = "none";
+            }
+
+
+            header.onclick = () => {
+
+                const open =
+                    list.style.display !== "none";
+
+                list.style.display =
+                    open ? "none" : "block";
+
+                header.querySelector(".arrow")
+                    .textContent =
+                    open ? "▼" : "▲";
+            };
+
+
+            seasons[seasonNumber]
+                .forEach(ep => {
+
+                    const item =
+                        document.createElement("div");
+
+                    item.className = "episode";
+
+
+                    const image =
+                        document.createElement("img");
+
+                    image.className =
+                        "episode-thumb";
+
+                    image.src =
+                        ep.thumbnail || drama.poster || "";
+
+                    image.onerror =
+                        () => {
+                            image.style.opacity = ".3";
+                        };
+
+
+                    const info =
+                        document.createElement("div");
+
+                    info.className =
+                        "episode-info";
+
+
+                    info.innerHTML = `
+                        <div class="episode-title">
+                            Episode ${ep.episode_number}
+                            ${ep.title ? " - "+escapeHtml(ep.title) : ""}
+                        </div>
+
+                        <div class="episode-meta">
+                            ${ep.duration ? escapeHtml(ep.duration) : ""}
+                        </div>
+
+                        <div class="episode-description">
+                            ${escapeHtml(ep.description || "")}
+                        </div>
+                    `;
+
+
+                    const watch =
+                        document.createElement("button");
+
+                    watch.className = "watch";
+
+                    watch.textContent =
+                        "▶ Watch";
+
+
+                    watch.onclick =
+                        async () => {
+
+                            /*
+                             * Open the video destination immediately
+                             * while the click is still a user action.
+                             * This helps prevent iPhone/Safari popup blocking.
+                             */
+
+                            if(!ep.video_url){
+
+                                alert(
+                                    "Video is not available for this episode."
+                                );
+
+                                return;
+                            }
+
+
+                            const videoUrl =
+                                String(ep.video_url).trim();
+
+
+                            let videoWindow =
+                                window.open(
+                                    "about:blank",
+                                    "_blank"
+                                );
+
+
+                            /*
+                             * Keep existing ad system unchanged.
+                             */
+                            await openAd("ADS-03");
+
+                            await openAd("ADS-04");
+
+
+                            /*
+                             * Open ANY URL stored in video_url.
+                             *
+                             * Google Drive
+                             * Direct MP4
+                             * Dropbox
+                             * Vimeo
+                             * YouTube
+                             * Other HTTPS links
+                             *
+                             * The URL is opened as provided.
+                             */
+
+                            if(videoWindow){
+
+                                videoWindow.location.href =
+                                    videoUrl;
+
+                            }else{
+
+                                /*
+                                 * Fallback if the browser blocks
+                                 * opening a new tab.
+                                 */
+
+                                window.location.href =
+                                    videoUrl;
+                            }
+
+                        };
+
+
+                    item.appendChild(image);
+                    item.appendChild(info);
+                    item.appendChild(watch);
+
+                    list.appendChild(item);
+                });
+
+
+            section.appendChild(header);
+            section.appendChild(list);
+
+            box.appendChild(section);
+        });
+}
+
+
+async function openAd(name){
+
+    try{
+
+        const {data,error} =
+            await supabaseClient
+            .from("ads")
+            .select("smartlink_url,enabled")
+            .eq("ad_name",name)
+            .eq("enabled",true)
+            .maybeSingle();
+
+
+        if(error || !data || !data.smartlink_url){
+            return;
+        }
+
+
+        window.open(
+            data.smartlink_url,
+            "_blank"
+        );
+
+    }catch(error){
+
+        console.warn("Ad error:",error);
+    }
+}
+
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+loadDrama();
+
+</script>
+
+</body>
+</html>
