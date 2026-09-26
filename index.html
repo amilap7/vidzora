@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vidzora - Watch K-Dramas & Episodes</title>
+
+<meta name="description" content="Vidzora - Discover and watch K-Dramas, Korean series and episodes.">
+<meta name="theme-color" content="#0a0a0d">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#08080b;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    background:rgba(8,8,11,.94);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(15px);
+}
+
+.logo{
+    font-size:27px;
+    font-weight:900;
+    letter-spacing:-1px;
+}
+
+.logo span{
+    color:#ff1744;
+}
+
+.logo small{
+    display:block;
+    font-size:8px;
+    letter-spacing:3px;
+    color:#888;
+    margin-top:-3px;
+    font-weight:500;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.search-btn,
+.menu-btn{
+    width:43px;
+    height:43px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:50%;
+    background:#111116;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.search-btn:hover,
+.menu-btn:hover{
+    border-color:#ff1744;
+}
+
+/* ================= MENU ================= */
+
+.menu-panel{
+    position:fixed;
+    top:70px;
+    right:-300px;
+    width:280px;
+    height:calc(100vh - 70px);
+    background:#101014;
+    z-index:999;
+    padding:25px 18px;
+    border-left:1px solid rgba(255,255,255,.08);
+    transition:.3s ease;
+}
+
+.menu-panel.active{
+    right:0;
+}
+
+.menu-title{
+    font-size:12px;
+    color:#777;
+    letter-spacing:2px;
+    margin-bottom:18px;
+}
+
+.menu-link{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    width:100%;
+    padding:15px;
+    margin-bottom:8px;
+    color:#fff;
+    text-decoration:none;
+    background:#17171c;
+    border-radius:12px;
+    font-size:14px;
+}
+
+.menu-link:hover{
+    background:#222229;
+}
+
+.menu-link span{
+    font-size:19px;
+}
+
+/* ================= SEARCH ================= */
+
+.search-box{
+    display:none;
+    padding:12px 18px;
+    background:#0d0d11;
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.search-box.active{
+    display:block;
+}
+
+.search-input{
+    width:100%;
+    padding:14px 17px;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    background:#18181e;
+    color:#fff;
+    font-size:14px;
+}
+
+.search-input::placeholder{
+    color:#777;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    position:relative;
+    min-height:500px;
+    display:flex;
+    align-items:flex-end;
+    overflow:hidden;
+    background:
+        linear-gradient(to top,#08080b 5%,rgba(8,8,11,.65) 48%,rgba(8,8,11,.15)),
+        linear-gradient(90deg,#08080b 0%,transparent 75%);
+}
+
+.hero-bg{
+    position:absolute;
+    inset:0;
+    background-size:cover;
+    background-position:center;
+    opacity:.62;
+    z-index:0;
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    padding:40px 20px 45px;
+    max-width:650px;
+}
+
+.hero-label{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    background:#ff1744;
+    color:#fff;
+    padding:7px 12px;
+    border-radius:6px;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1px;
+    margin-bottom:14px;
+}
+
+.hero h1{
+    font-size:42px;
+    line-height:1.03;
+    margin-bottom:12px;
+    letter-spacing:-1.5px;
+}
+
+.hero-info{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#ddd;
+    font-size:12px;
+    margin-bottom:13px;
+}
+
+.hero-info b{
+    color:#ff1744;
+}
+
+.hero-description{
+    color:#c4c4c7;
+    font-size:14px;
+    line-height:1.6;
+    max-width:540px;
+    margin-bottom:20px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.watch-main{
+    border:none;
+    background:#ff1744;
+    color:#fff;
+    padding:13px 21px;
+    border-radius:9px;
+    font-size:13px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.info-main{
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    padding:13px 21px;
+    border-radius:9px;
+    font-size:13px;
+    cursor:pointer;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    max-width:1400px;
+    margin:auto;
+    padding:25px 18px 50px;
+}
+
+.section{
+    margin-bottom:38px;
+}
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:16px;
+}
+
+.section-title{
+    font-size:21px;
+    font-weight:800;
+}
+
+.section-title span{
+    color:#ff1744;
+}
+
+.see-all{
+    color:#888;
+    font-size:12px;
+    cursor:pointer;
+}
+
+/* ================= CATEGORIES ================= */
+
+.categories{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding-bottom:4px;
+    scrollbar-width:none;
+}
+
+.categories::-webkit-scrollbar{
+    display:none;
+}
+
+.category{
+    white-space:nowrap;
+    border:1px solid rgba(255,255,255,.1);
+    background:#111116;
+    color:#aaa;
+    padding:9px 16px;
+    border-radius:30px;
+    font-size:12px;
+    cursor:pointer;
+}
+
+.category.active,
+.category:hover{
+    background:#ff1744;
+    color:#fff;
+    border-color:#ff1744;
+}
+
+/* ================= DRAMA GRID ================= */
+
+.drama-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.drama-card{
+    min-width:0;
+    cursor:pointer;
+}
+
+.poster{
+    position:relative;
+    width:100%;
+    aspect-ratio:2/3;
+    overflow:hidden;
+    border-radius:11px;
+    background:#15151a;
+}
+
+.poster img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:.35s ease;
+}
+
+.drama-card:hover .poster img{
+    transform:scale(1.05);
+}
+
+.poster-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to top,rgba(0,0,0,.75),transparent 55%);
+}
+
+.badge{
+    position:absolute;
+    top:8px;
+    left:8px;
+    background:#ff1744;
+    padding:5px 7px;
+    border-radius:5px;
+    font-size:9px;
+    font-weight:800;
+}
+
+.year{
+    position:absolute;
+    right:8px;
+    top:8px;
+    background:rgba(0,0,0,.7);
+    padding:5px 7px;
+    border-radius:5px;
+    font-size:9px;
+}
+
+.poster-play{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%) scale(.8);
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#ff1744;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transition:.25s;
+    font-size:19px;
+}
+
+.drama-card:hover .poster-play{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+}
+
+.drama-title{
+    font-size:14px;
+    font-weight:700;
+    margin-top:9px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.drama-meta{
+    color:#777;
+    font-size:10px;
+    margin-top:5px;
+}
+
+/* ================= EPISODES ================= */
+
+.episode-list{
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    scrollbar-width:none;
+}
+
+.episode-list::-webkit-scrollbar{
+    display:none;
+}
+
+.episode-card{
+    flex:0 0 230px;
+    background:#111116;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:11px;
+    overflow:hidden;
+}
+
+.episode-thumb{
+    height:130px;
+    position:relative;
+    background:#18181d;
+}
+
+.episode-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.episode-number{
+    position:absolute;
+    top:8px;
+    left:8px;
+    background:#ff1744;
+    padding:5px 8px;
+    border-radius:5px;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.episode-body{
+    padding:11px;
+}
+
+.episode-title{
+    font-size:13px;
+    font-weight:bold;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.episode-drama{
+    font-size:10px;
+    color:#777;
+    margin-top:5px;
+}
+
+.watch-btn{
+    width:100%;
+    margin-top:10px;
+    border:none;
+    background:#ff1744;
+    color:#fff;
+    padding:9px;
+    border-radius:7px;
+    font-size:11px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+    text-align:center;
+    padding:50px 15px;
+    color:#777;
+    display:none;
+}
+
+.empty-icon{
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+.empty h3{
+    color:#aaa;
+    margin-bottom:6px;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    border-top:1px solid rgba(255,255,255,.07);
+    padding:30px 18px;
+    text-align:center;
+    color:#666;
+    font-size:11px;
+}
+
+.footer-logo{
+    font-size:20px;
+    color:#fff;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.footer-logo span{
+    color:#ff1744;
+}
+
+/* ================= PASSWORD MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:3000;
+    background:rgba(0,0,0,.78);
+    backdrop-filter:blur(8px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:390px;
+    background:#15151a;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:17px;
+    padding:25px;
+    box-shadow:0 20px 70px rgba(0,0,0,.6);
+}
+
+.modal-icon{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:rgba(255,23,68,.13);
+    color:#ff1744;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    margin-bottom:15px;
+}
+
+.modal h2{
+    font-size:21px;
+    margin-bottom:7px;
+}
+
+.modal p{
+    color:#888;
+    font-size:12px;
+    line-height:1.5;
+    margin-bottom:18px;
+}
+
+.password-input{
+    width:100%;
+    padding:13px;
+    background:#0d0d11;
+    color:#fff;
+    border:1px solid #292930;
+    outline:none;
+    border-radius:9px;
+    font-size:14px;
+}
+
+.password-input:focus{
+    border-color:#ff1744;
+}
+
+.modal-actions{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+}
+
+.modal-actions button{
+    flex:1;
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.cancel-btn{
+    background:#222229;
+    border:1px solid #333;
+    color:#aaa;
+}
+
+.unlock-btn{
+    background:#ff1744;
+    border:none;
+    color:#fff;
+}
+
+.password-error{
+    color:#ff526f;
+    font-size:11px;
+    margin-top:9px;
+    display:none;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(min-width:600px){
+
+    .header{
+        padding:0 30px;
+    }
+
+    .main{
+        padding-left:30px;
+        padding-right:30px;
+    }
+
+    .drama-grid{
+        grid-template-columns:repeat(4,1fr);
+        gap:18px;
+    }
+
+    .hero{
+        min-height:570px;
+    }
+
+    .hero-content{
+        padding-left:40px;
+        padding-bottom:55px;
+    }
+
+    .hero h1{
+        font-size:54px;
+    }
+}
+
+@media(min-width:1000px){
+
+    .header{
+        padding:0 55px;
+    }
+
+    .main{
+        padding-left:55px;
+        padding-right:55px;
+    }
+
+    .drama-grid{
+        grid-template-columns:repeat(6,1fr);
+    }
+
+    .hero-content{
+        padding-left:70px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+
+    <div class="logo">
+        Vid<span>zora</span>
+        <small>K-DRAMA • SERIES • EPISODES</small>
+    </div>
+
+    <div class="header-right">
+        <button class="search-btn" onclick="toggleSearch()">⌕</button>
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
+
+</header>
+
+<!-- SEARCH -->
+<div class="search-box" id="searchBox">
+    <input
+        id="searchInput"
+        class="search-input"
+        type="search"
+        placeholder="Search K-Dramas..."
+        oninput="searchDramas()"
+    >
+</div>
+
+<!-- MENU -->
+<div class="menu-panel" id="menuPanel">
+
+    <div class="menu-title">VIDZORA MENU</div>
+
+    <a href="index.html" class="menu-link">
+        <span>⌂</span>
+        Home
+    </a>
+
+    <a href="#latest" class="menu-link">
+        <span>🎬</span>
+        Latest Dramas
+    </a>
+
+    <a href="#episodes" class="menu-link">
+        <span>▶</span>
+        Latest Episodes
+    </a>
+
+    <a href="#trending" class="menu-link">
+        <span>🔥</span>
+        Trending
+    </a>
+
+    <a href="login.html" class="menu-link">
+        <span>♙</span>
+        Login
+    </a>
+
+    <a href="signup.html" class="menu-link">
+        <span>＋</span>
+        Create Account
+    </a>
+
+    <!-- ADMIN PANEL - HIDDEN BY DEFAULT -->
+    <a href="add-video.html" id="adminLink" class="menu-link" style="display:none;">
+        <span>⚙</span>
+        Admin Panel
+    </a>
+
+</div>
+
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-bg" id="heroBackground"></div>
+
+    <div class="hero-content">
+
+        <div class="hero-label">
+            🔥 FEATURED K-DRAMA
+        </div>
+
+        <h1 id="heroTitle">
+            Discover Your Next Favorite Drama
+        </h1>
+
+        <div class="hero-info">
+            <span id="heroYear">2026</span>
+            <span>•</span>
+            <b id="heroGenre">K-DRAMA</b>
+            <span>•</span>
+            <span id="heroStatus">NEW</span>
+        </div>
+
+        <p class="hero-description" id="heroDescription">
+            Watch the latest Korean dramas and episodes on Vidzora.
+            Discover new stories, trending series and unforgettable characters.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button class="watch-main" onclick="heroWatch()">
+                ▶ Watch Now
+            </button>
+
+            <button class="info-main" onclick="scrollToDramas()">
+                ＋ View Dramas
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<main class="main">
+
+    <!-- CATEGORIES -->
+    <section class="section">
+
+        <div class="section-head">
+            <h2 class="section-title">Browse <span>Categories</span></h2>
+        </div>
+
+        <div class="categories">
+
+            <button class="category active" onclick="filterCategory('All',this)">
+                All
+            </button>
+
+            <button class="category" onclick="filterCategory('Romance',this)">
+                Romance
+            </button>
+
+            <button class="category" onclick="filterCategory('Action',this)">
+                Action
+            </button>
+
+            <button class="category" onclick="filterCategory('Thriller',this)">
+                Thriller
+            </button>
+
+            <button class="category" onclick="filterCategory('Comedy',this)">
+                Comedy
+            </button>
+
+            <button class="category" onclick="filterCategory('Drama',this)">
+                Drama
+            </button>
+
+            <button class="category" onclick="filterCategory('Fantasy',this)">
+                Fantasy
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- TRENDING -->
+    <section class="section" id="trending">
+
+        <div class="section-head">
+            <h2 class="section-title">🔥 Trending <span>Now</span></h2>
+            <span class="see-all" onclick="filterSpecial('Trending')">
+                See All
+            </span>
+        </div>
+
+        <div class="drama-grid" id="trendingGrid"></div>
+
+    </section>
+
+
+    <!-- LATEST DRAMAS -->
+    <section class="section" id="latest">
+
+        <div class="section-head">
+            <h2 class="section-title">Latest <span>Dramas</span></h2>
+        </div>
+
+        <div class="drama-grid" id="dramaGrid"></div>
+
+        <div class="empty" id="emptyDramas">
+
+            <div class="empty-icon">🎬</div>
+
+            <h3>No dramas yet</h3>
+
+            <p>
+                New K-Dramas will appear here when the admin adds them.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- LATEST EPISODES -->
+    <section class="section" id="episodes">
+
+        <div class="section-head">
+            <h2 class="section-title">Latest <span>Episodes</span></h2>
+        </div>
+
+        <div class="episode-list" id="episodeList"></div>
+
+        <div class="empty" id="emptyEpisodes">
+
+            <div class="empty-icon">▶</div>
+
+            <h3>No episodes yet</h3>
+
+            <p>
+                Episodes will appear here after they are added.
+            </p>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- PASSWORD MODAL -->
+
+<div class="modal" id="passwordModal">
+
+    <div class="modal-box">
+
+        <div class="modal-icon">
+            🔐
+        </div>
+
+        <h2>Episode Locked</h2>
+
+        <p id="passwordEpisodeText">
+            Enter the password for this episode to continue watching.
+        </p>
+
+        <input
+            type="password"
+            id="episodePassword"
+            class="password-input"
+            placeholder="Episode password"
+            autocomplete="off"
+        >
+
+        <div class="password-error" id="passwordError">
+            Incorrect password. Please try again.
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="cancel-btn"
+                onclick="closePasswordModal()">
+                Cancel
+            </button>
+
+            <button
+                class="unlock-btn"
+                onclick="verifyEpisodePassword()">
+                Unlock
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+    <div class="footer-logo">
+        Vid<span>zora</span>
+    </div>
+
+    <p>
+        K-Dramas • Korean Series • Episodes
+    </p>
+
+    <p style="margin-top:12px;">
+        © 2026 Vidzora. All rights reserved.
+    </p>
+
+</footer>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* =========================================
+   SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+"https://qcqdduvrhqipcuqhlrhs.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_u2Cf_WlnX6jK6YuxNYuK9g_rYHpDo8o";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+let dramas = [];
+let episodes = [];
+
+let selectedEpisode = null;
+let currentCategory = "All";
+
+let featuredDrama = null;
+
+
+/* =========================================
+   MENU
+========================================= */
+
+function toggleMenu(){
+
+    document
+        .getElementById("menuPanel")
+        .classList.toggle("active");
+
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+function toggleSearch(){
+
+    const box =
+        document.getElementById("searchBox");
+
+    box.classList.toggle("active");
+
+    if(box.classList.contains("active")){
+
+        setTimeout(() => {
+
+            document
+                .getElementById("searchInput")
+                .focus();
+
+        },100);
+
+    }
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(value){
+
+    if(value === null || value === undefined){
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   LOAD DRAMAS
+========================================= */
+
+async function loadDramas(){
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("dramas")
+        .select("*")
+        .order("created_at",{ascending:false});
+
+    if(error){
+
+        console.error(error);
+
+        dramas = [];
+
+        renderDramas();
+
+        return;
+    }
+
+    dramas = data || [];
+
+    renderDramas();
+
+    setupHero();
+
+}
+
+
+/* =========================================
+   LOAD EPISODES
+========================================= */
+
+async function loadEpisodes(){
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("episodes")
+        .select(`
+            id,
+            drama_id,
+            episode_number,
+            title,
+            thumbnail,
+            video_url,
+            duration,
+            description,
+            created_at
+        `)
+        .order("created_at",{ascending:false});
+
+    if(error){
+
+        console.error(error);
+
+        episodes = [];
+
+        renderEpisodes();
+
+        return;
+    }
+
+    episodes = data || [];
+
+    renderEpisodes();
+
+}
+
+
+/* =========================================
+   DRAMA CARD
+========================================= */
+
+function dramaCard(drama){
+
+    const poster =
+        drama.poster ||
+        drama.image ||
+        "https://via.placeholder.com/400x600/15151a/ffffff?text=Vidzora";
+
+    const title =
+        drama.title || "Untitled Drama";
+
+    const year =
+        drama.year || "";
+
+    const genre =
+        drama.genre || "K-Drama";
+
+    const status =
+        drama.status || "";
+
+    return `
+
+        <article
+            class="drama-card"
+            onclick="openDrama(${drama.id})">
+
+            <div class="poster">
+
+                <img
+                    src="${escapeHTML(poster)}"
+                    alt="${escapeHTML(title)}"
+                    loading="lazy"
+                    onerror="this.src='https://via.placeholder.com/400x600/15151a/ffffff?text=Vidzora'"
+                >
+
+                <div class="poster-overlay"></div>
+
+                ${
+                    status
+                    ?
+                    `<div class="badge">
+                        ${escapeHTML(status)}
+                    </div>`
+                    :
+                    ""
+                }
+
+                ${
+                    year
+                    ?
+                    `<div class="year">
+                        ${escapeHTML(year)}
+                    </div>`
+                    :
+                    ""
+                }
+
+                <div class="poster-play">
+                    ▶
+                </div>
+
+            </div>
+
+            <div class="drama-title">
+                ${escapeHTML(title)}
+            </div>
+
+            <div class="drama-meta">
+                ${escapeHTML(genre)}
+                ${year ? " • " + escapeHTML(year) : ""}
+            </div>
+
+        </article>
+
+    `;
+}
+
+
+/* =========================================
+   RENDER DRAMAS
+========================================= */
+
+function renderDramas(){
+
+    const grid =
+        document.getElementById("dramaGrid");
+
+    const trendingGrid =
+        document.getElementById("trendingGrid");
+
+    const empty =
+        document.getElementById("emptyDramas");
+
+    let filtered = dramas;
+
+    if(currentCategory !== "All"){
+
+        filtered = dramas.filter(drama => {
+
+            const genre =
+                String(drama.genre || "")
+                    .toLowerCase();
+
+            return genre.includes(
+                currentCategory.toLowerCase()
+            );
+
+        });
+
+    }
+
+    if(filtered.length === 0){
+
+        grid.innerHTML = "";
+
+        empty.style.display = "block";
+
+    }else{
+
+        empty.style.display = "none";
+
+        grid.innerHTML =
+            filtered
+            .map(dramaCard)
+            .join("");
+
+    }
+
+
+    const trending =
+        dramas.filter(drama =>
+            drama.trending === true ||
+            drama.trending === "true" ||
+            String(drama.category || "")
+                .toLowerCase() === "trending"
+        );
+
+    trendingGrid.innerHTML =
+        (trending.length ? trending : dramas.slice(0,6))
+        .map(dramaCard)
+        .join("");
+
+}
+
+
+/* =========================================
+   EPISODE CARD
+========================================= */
+
+function episodeCard(episode){
+
+    const drama =
+        dramas.find(
+            d => String(d.id) === String(episode.drama_id)
+        );
+
+    const dramaTitle =
+        drama
+        ?
+        drama.title
+        :
+        "K-Drama";
+
+    const thumb =
+        episode.thumbnail ||
+        (drama ? drama.poster : "") ||
+        "https://via.placeholder.com/500x280/15151a/ffffff?text=Vidzora";
+
+    const epNumber =
+        episode.episode_number || "";
+
+    const title =
+        episode.title ||
+        `Episode ${epNumber}`;
+
+    return `
+
+        <article class="episode-card">
+
+            <div class="episode-thumb">
+
+                <img
+                    src="${escapeHTML(thumb)}"
+                    alt="${escapeHTML(title)}"
+                    loading="lazy"
+                    onerror="this.src='https://via.placeholder.com/500x280/15151a/ffffff?text=Vidzora'"
+                >
+
+                <div class="episode-number">
+                    EP ${escapeHTML(epNumber)}
+                </div>
+
+            </div>
+
+            <div class="episode-body">
+
+                <div class="episode-title">
+                    ${escapeHTML(title)}
+                </div>
+
+                <div class="episode-drama">
+                    ${escapeHTML(dramaTitle)}
+                    ${
+                        episode.duration
+                        ?
+                        " • " + escapeHTML(episode.duration)
+                        :
+                        ""
+                    }
+                </div>
+
+                <button
+                    class="watch-btn"
+                    onclick="event.stopPropagation(); openEpisode(${episode.id})">
+
+                    ▶ Watch Video
+
+                </button>
+
+            </div>
+
+        </article>
+
+    `;
+}
+
+
+/* =========================================
+   RENDER EPISODES
+========================================= */
+
+function renderEpisodes(){
+
+    const list =
+        document.getElementById("episodeList");
+
+    const empty =
+        document.getElementById("emptyEpisodes");
+
+    if(episodes.length === 0){
+
+        list.innerHTML = "";
+
+        empty.style.display = "block";
+
+        return;
+    }
+
+    empty.style.display = "none";
+
+    list.innerHTML =
+        episodes
+        .slice(0,12)
+        .map(episodeCard)
+        .join("");
+
+}
+
+
+/* =========================================
+   SEARCH DRAMAS
+========================================= */
+
+function searchDramas(){
+
+    const value =
+        document
+            .getElementById("searchInput")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const grid =
+        document.getElementById("dramaGrid");
+
+    if(!value){
+
+        currentCategory = "All";
+
+        renderDramas();
+
+        return;
+    }
+
+    const results =
+        dramas.filter(drama => {
+
+            return (
+
+                String(drama.title || "")
+                    .toLowerCase()
+                    .includes(value)
+
+                ||
+
+                String(drama.genre || "")
+                    .toLowerCase()
+                    .includes(value)
+
+                ||
+
+                String(drama.description || "")
+                    .toLowerCase()
+                    .includes(value)
+
+            );
+
+        });
+
+    if(results.length === 0){
+
+        grid.innerHTML = "";
+
+        document
+            .getElementById("emptyDramas")
+            .style.display = "block";
+
+        return;
+    }
+
+    document
+        .getElementById("emptyDramas")
+        .style.display = "none";
+
+    grid.innerHTML =
+        results.map(dramaCard).join("");
+
+}
+
+
+/* =========================================
+   CATEGORY
+========================================= */
+
+function filterCategory(category,button){
+
+    currentCategory = category;
+
+    document
+        .querySelectorAll(".category")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+    if(button){
+        button.classList.add("active");
+    }
+
+    renderDramas();
+
+}
+
+
+function filterSpecial(type){
+
+    const results =
+        dramas.filter(drama => {
+
+            return drama.trending === true ||
+                drama.trending === "true" ||
+                String(drama.category || "")
+                    .toLowerCase() === type.toLowerCase();
+
+        });
+
+    const grid =
+        document.getElementById("dramaGrid");
+
+    if(results.length){
+
+        grid.innerHTML =
+            results.map(dramaCard).join("");
+
+        document
+            .getElementById("emptyDramas")
+            .style.display = "none";
+
+    }
+
+    document
+        .getElementById("latest")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+function setupHero(){
+
+    if(!dramas.length){
+
+        document
+            .getElementById("heroBackground")
+            .style.backgroundImage =
+            "linear-gradient(135deg,#1a1a22,#08080b)";
+
+        return;
+    }
+
+    featuredDrama =
+        dramas.find(drama =>
+            drama.featured === true ||
+            drama.featured === "true"
+        ) || dramas[0];
+
+    const title =
+        featuredDrama.title ||
+        "Discover Your Next Favorite Drama";
+
+    document
+        .getElementById("heroTitle")
+        .textContent = title;
+
+    document
+        .getElementById("heroYear")
+        .textContent =
+        featuredDrama.year || "";
+
+    document
+        .getElementById("heroGenre")
+        .textContent =
+        featuredDrama.genre || "K-DRAMA";
+
+    document
+        .getElementById("heroStatus")
+        .textContent =
+        featuredDrama.status || "NEW";
+
+    document
+        .getElementById("heroDescription")
+        .textContent =
+        featuredDrama.description ||
+        "Watch the latest Korean dramas and episodes on Vidzora.";
+
+    const background =
+        featuredDrama.banner ||
+        featuredDrama.backdrop ||
+        featuredDrama.poster;
+
+    if(background){
+
+        document
+            .getElementById("heroBackground")
+            .style.backgroundImage =
+            `url("${background}")`;
+
+    }
+
+}
+
+
+/* =========================================
+   HERO WATCH
+========================================= */
+
+function heroWatch(){
+
+    if(!featuredDrama){
+
+        scrollToDramas();
+
+        return;
+    }
+
+    const dramaEpisodes =
+        episodes.filter(ep =>
+            String(ep.drama_id) ===
+            String(featuredDrama.id)
+        );
+
+    if(dramaEpisodes.length){
+
+        openEpisode(dramaEpisodes[0].id);
+
+    }else{
+
+        scrollToDramas();
+
+    }
+
+}
+
+
+/* =========================================
+   DRAMA CLICK
+========================================= */
+
+function openDrama(id){
+
+    const drama =
+        dramas.find(
+            d => String(d.id) === String(id)
+        );
+
+    if(!drama){
+        return;
+    }
+
+    const dramaEpisodes =
+        episodes.filter(ep =>
+            String(ep.drama_id) === String(id)
+        );
+
+    if(dramaEpisodes.length){
+
+        openEpisode(dramaEpisodes[0].id);
+
+        return;
+    }
+
+    alert(
+        "Episodes for this drama have not been added yet."
+    );
+
+}
+
+
+/* =========================================
+   OPEN EPISODE
+========================================= */
+
+function openEpisode(id){
+
+    const episode =
+        episodes.find(
+            ep => String(ep.id) === String(id)
+        );
+
+    if(!episode){
+        return;
+    }
+
+    selectedEpisode = episode;
+
+    document
+        .getElementById("passwordEpisodeText")
+        .textContent =
+        `Enter the password for Episode ${
+            episode.episode_number || ""
+        } to continue watching.`;
+
+    document
+        .getElementById("episodePassword")
+        .value = "";
+
+    document
+        .getElementById("passwordError")
+        .style.display = "none";
+
+    document
+        .getElementById("passwordModal")
+        .classList.add("active");
+
+    setTimeout(() => {
+
+        document
+            .getElementById("episodePassword")
+            .focus();
+
+    },100);
+
+}
+
+
+/* =========================================
+   CLOSE PASSWORD
+========================================= */
+
+function closePasswordModal(){
+
+    document
+        .getElementById("passwordModal")
+        .classList.remove("active");
+
+    selectedEpisode = null;
+
+}
+
+
+/* =========================================
+   VERIFY PASSWORD
+========================================= */
+
+async function verifyEpisodePassword(){
+
+    if(!selectedEpisode){
+        return;
+    }
+
+    const password =
+        document
+            .getElementById("episodePassword")
+            .value
+            .trim();
+
+    if(!password){
+
+        document
+            .getElementById("passwordError")
+            .textContent =
+            "Please enter the episode password.";
+
+        document
+            .getElementById("passwordError")
+            .style.display = "block";
+
+        return;
+    }
+
+
+    /*
+       Password verification will be connected
+       to the secure Supabase RPC after the
+       episodes/admin database is created.
+
+       IMPORTANT:
+       The episode password will NOT be exposed
+       in the public episode query.
+    */
+
+    const {
+        data,
+        error
+    } = await supabaseClient.rpc(
+        "verify_episode_password",
+        {
+            p_episode_id: selectedEpisode.id,
+            p_password: password
+        }
+    );
+
+
+    if(error){
+
+        console.error(error);
+
+        document
+            .getElementById("passwordError")
+            .textContent =
+            "Password verification is not available yet.";
+
+        document
+            .getElementById("passwordError")
+            .style.display = "block";
+
+        return;
+    }
+
+
+    if(data === true){
+
+        const videoUrl =
+            selectedEpisode.video_url;
+
+        closePasswordModal();
+
+        if(videoUrl){
+
+            window.open(
+                videoUrl,
+                "_blank"
+            );
+
+        }else{
+
+            alert(
+                "Video URL is not available."
+            );
+
+        }
+
+    }else{
+
+        document
+            .getElementById("passwordError")
+            .textContent =
+            "Incorrect password. Please try again.";
+
+        document
+            .getElementById("passwordError")
+            .style.display = "block";
+
+    }
+
+}
+
+
+/* =========================================
+   ENTER KEY PASSWORD
+========================================= */
+
+document
+    .getElementById("episodePassword")
+    .addEventListener("keydown",function(event){
+
+        if(event.key === "Enter"){
+
+            verifyEpisodePassword();
+
+        }
+
+    });
+
+
+/* =========================================
+   SCROLL
+========================================= */
+
+function scrollToDramas(){
+
+    document
+        .getElementById("latest")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* =========================================
+   ADMIN CHECK
+========================================= */
+
+async function checkAdmin(){
+
+    try{
+
+        const adminLink =
+            document.getElementById("adminLink");
+
+        /* Always hide Admin Panel first */
+        if(adminLink){
+            adminLink.style.display = "none";
+        }
+
+        const {
+            data:{
+                session
+            }
+        } =
+        await supabaseClient.auth.getSession();
+
+        /* User is not logged in */
+        if(!session || !session.user){
+            return;
+        }
+
+        /* =====================================
+           ADMIN EMAIL CHECK
+           ===================================== */
+
+        const userEmail =
+            (session.user.email || "")
+                .toLowerCase()
+                .trim();
+
+        const ADMIN_EMAIL =
+            "akila2003sadaruwan@gmail.com";
+
+        /* Email does not match */
+        if(userEmail !== ADMIN_EMAIL){
+            return;
+        }
+
+        /* =====================================
+           SUPABASE ADMIN ROLE CHECK
+           ===================================== */
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.rpc("is_admin");
+
+        if(
+            !error &&
+            data === true &&
+            adminLink
+        ){
+
+            adminLink.style.display = "flex";
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Admin check error:",
+            error
+        );
+
+        const adminLink =
+            document.getElementById("adminLink");
+
+        if(adminLink){
+            adminLink.style.display = "none";
+        }
+
+    }
+
+}
+
+
+/* =========================================
+   CLOSE MENU WHEN CLICK OUTSIDE
+========================================= */
+
+document.addEventListener("click",function(event){
+
+    const menu =
+        document.getElementById("menuPanel");
+
+    const button =
+        document.querySelector(".menu-btn");
+
+    if(
+        menu.classList.contains("active") &&
+        !menu.contains(event.target) &&
+        !button.contains(event.target)
+    ){
+
+        menu.classList.remove("active");
+
+    }
+
+});
+
+
+/* =========================================
+   START
+========================================= */
+
+async function init(){
+
+    await loadDramas();
+
+    await loadEpisodes();
+
+    await checkAdmin();
+
+}
+
+init();
+
+</script>
+
+</body>
+</html>
