@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login - Vidzora</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    background:#08080b;
+    color:#fff;
+    font-family:Arial,sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:420px;
+}
+
+.logo{
+    text-align:center;
+    font-size:42px;
+    font-weight:900;
+    margin-bottom:30px;
+}
+
+.logo span{
+    color:#ff1744;
+}
+
+.card{
+    background:#121216;
+    border:1px solid #24242b;
+    border-radius:20px;
+    padding:28px 22px;
+    box-shadow:0 15px 45px rgba(0,0,0,.4);
+}
+
+h1{
+    text-align:center;
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#999;
+    margin-bottom:25px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+    color:#ccc;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    margin-bottom:18px;
+    border-radius:12px;
+    border:1px solid #303038;
+    background:#0b0b0e;
+    color:#fff;
+    font-size:15px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#ff1744;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#ff1744;
+    color:#fff;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:disabled{
+    opacity:.6;
+}
+
+.message{
+    display:none;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:18px;
+    font-size:14px;
+    text-align:center;
+}
+
+.error{
+    background:#351016;
+    color:#ff8095;
+}
+
+.success{
+    background:#10351f;
+    color:#72e69a;
+}
+
+.bottom{
+    text-align:center;
+    margin-top:22px;
+    color:#999;
+    font-size:14px;
+}
+
+.bottom a{
+    color:#ff1744;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.home{
+    display:block;
+    text-align:center;
+    margin-top:20px;
+    color:#888;
+    text-decoration:none;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        Vid<span>zora</span>
+    </div>
+
+    <div class="card">
+
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Login to continue watching</p>
+
+        <div id="errorMessage" class="message error"></div>
+        <div id="successMessage" class="message success"></div>
+
+        <form id="loginForm">
+
+            <label>Email</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label>Password</label>
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button type="submit" id="loginBtn">
+                Login
+            </button>
+
+        </form>
+
+        <div class="bottom">
+            Don't have an account?
+            <a href="signup.html">Create Account</a>
+        </div>
+
+    </div>
+
+    <a href="index.html" class="home">← Back to Home</a>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL = "https://qcqdduvrhqipcuqhlrhs.supabase.co";
+const SUPABASE_KEY = "sb_publishable_u2Cf_WlnX6jK6YuxNYuK9g_rYHpDo8o";
+
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+const form = document.getElementById("loginForm");
+const loginBtn = document.getElementById("loginBtn");
+
+function showError(message){
+    const box = document.getElementById("errorMessage");
+    box.textContent = message;
+    box.style.display = "block";
+
+    document.getElementById("successMessage").style.display = "none";
+}
+
+function showSuccess(message){
+    const box = document.getElementById("successMessage");
+    box.textContent = message;
+    box.style.display = "block";
+
+    document.getElementById("errorMessage").style.display = "none";
+}
+
+form.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    loginBtn.disabled = true;
+    loginBtn.textContent = "Logging in...";
+
+    try{
+
+        const { data, error } =
+            await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+        if(error){
+            throw error;
+        }
+
+        showSuccess("Login successful! Redirecting...");
+
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 800);
+
+    }catch(error){
+
+        console.error(error);
+
+        let msg = error.message || "Login failed.";
+
+        if(msg.toLowerCase().includes("email not confirmed")){
+            msg = "Please confirm your email before logging in.";
+        }
+
+        if(msg.toLowerCase().includes("invalid login credentials")){
+            msg = "Incorrect email or password.";
+        }
+
+        showError(msg);
+
+    }finally{
+
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Login";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
