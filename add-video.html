@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Vidzora Admin Panel</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#08080b;
+    color:#fff;
+    min-height:100vh;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:#101014;
+    border-bottom:1px solid #27272d;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+    color:#ff1744;
+}
+
+.logo span{
+    color:#fff;
+}
+
+.header-right{
+    display:flex;
+    gap:8px;
+}
+
+button{
+    border:0;
+    cursor:pointer;
+}
+
+.back-btn,
+.logout-btn{
+    padding:10px 14px;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+.back-btn{
+    background:#222228;
+    color:#fff;
+}
+
+.logout-btn{
+    background:#ff1744;
+    color:#fff;
+}
+
+.container{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+    padding:18px 14px 50px;
+}
+
+.page-title{
+    font-size:27px;
+    font-weight:900;
+    margin-bottom:18px;
+}
+
+.section{
+    background:#111116;
+    border:1px solid #292930;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:20px;
+}
+
+.section h2{
+    font-size:20px;
+    margin-bottom:15px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.field{
+    margin-bottom:12px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    color:#aaa;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    background:#08080b;
+    color:#fff;
+    border:1px solid #33333b;
+    border-radius:10px;
+    padding:13px;
+    outline:none;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:#ff1744;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+select{
+    appearance:auto;
+}
+
+.checks{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    margin:5px 0 15px;
+}
+
+.check{
+    display:flex;
+    gap:7px;
+    align-items:center;
+    color:#ddd;
+}
+
+.check input{
+    width:auto;
+}
+
+.primary{
+    width:100%;
+    background:#ff1744;
+    color:#fff;
+    padding:14px;
+    border-radius:10px;
+    font-weight:900;
+    font-size:15px;
+}
+
+.secondary{
+    background:#25252c;
+    color:#fff;
+    padding:11px 14px;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+.danger{
+    background:#7f1028;
+    color:#fff;
+    padding:10px 13px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.message{
+    display:none;
+    padding:12px;
+    border-radius:9px;
+    margin-bottom:15px;
+    background:#202027;
+    color:#fff;
+}
+
+.drama-card{
+    background:#0b0b0f;
+    border:1px solid #292930;
+    border-radius:13px;
+    padding:13px;
+    margin-bottom:12px;
+}
+
+.drama-top{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.drama-poster{
+    width:65px;
+    height:85px;
+    border-radius:8px;
+    object-fit:cover;
+    background:#222;
+}
+
+.drama-info{
+    flex:1;
+    min-width:0;
+}
+
+.drama-title{
+    font-size:17px;
+    font-weight:900;
+    margin-bottom:5px;
+}
+
+.muted{
+    color:#999;
+    font-size:12px;
+}
+
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:11px;
+}
+
+.episode-area{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid #292930;
+    display:none;
+}
+
+.episode{
+    background:#15151b;
+    border-radius:10px;
+    padding:10px;
+    margin-bottom:8px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.episode img{
+    width:70px;
+    height:45px;
+    object-fit:cover;
+    border-radius:6px;
+}
+
+.episode-info{
+    flex:1;
+}
+
+.season-title{
+    color:#ff1744;
+    font-weight:900;
+    margin:12px 0 8px;
+}
+
+.ad-row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:10px;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.ad-row input{
+    min-width:0;
+}
+
+.small{
+    font-size:12px;
+    color:#999;
+}
+
+.hidden{
+    display:none !important;
+}
+
+@media(max-width:650px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .drama-top{
+        align-items:flex-start;
+    }
+
+    .actions button{
+        flex:1;
+        min-width:100px;
+    }
+
+    .episode{
+        align-items:flex-start;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Vidzora<span> Admin</span></div>
+
+    <div class="header-right">
+        <button class="back-btn" onclick="location.href='index.html'">
+            Home
+        </button>
+
+        <button class="logout-btn" onclick="logout()">
+            Logout
+        </button>
+    </div>
+</header>
+
+<div class="container">
+
+    <div class="page-title">
+        🎬 Admin Panel
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <!-- DRAMA -->
+    <div class="section">
+        <h2>🎬 Add / Edit Drama</h2>
+
+        <input type="hidden" id="dramaId">
+
+        <div class="grid">
+
+            <div class="field">
+                <label>Drama Title</label>
+                <input id="title" placeholder="Example: Queen of Tears">
+            </div>
+
+            <div class="field">
+                <label>Genre</label>
+                <input id="genre" placeholder="Romance, Drama">
+            </div>
+
+            <div class="field">
+                <label>Year</label>
+                <input id="year" type="number" placeholder="2026">
+            </div>
+
+            <div class="field">
+                <label>Status</label>
+                <select id="status">
+                    <option value="Ongoing">Ongoing</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Upcoming">Upcoming</option>
+                </select>
+            </div>
+
+            <div class="field full">
+                <label>Poster Image URL</label>
+                <input id="poster" placeholder="https://...">
+            </div>
+
+            <div class="field full">
+                <label>Banner Image URL</label>
+                <input id="banner" placeholder="https://...">
+            </div>
+
+            <div class="field full">
+                <label>Description</label>
+                <textarea id="description" placeholder="Drama description..."></textarea>
+            </div>
+
+            <div class="field">
+                <label>Drama Password</label>
+                <input id="password" type="text" placeholder="Example: VIDZORA123">
+            </div>
+
+            <div class="field">
+                <label>Password YouTube URL</label>
+                <input id="passwordYoutube" placeholder="https://youtube.com/watch?v=...">
+            </div>
+
+        </div>
+
+        <div class="checks">
+            <label class="check">
+                <input type="checkbox" id="featured">
+                Featured
+            </label>
+
+            <label class="check">
+                <input type="checkbox" id="trending">
+                Trending
+            </label>
+        </div>
+
+        <button class="primary" onclick="saveDrama()">
+            💾 Save Drama
+        </button>
+
+        <button
+            id="cancelDramaBtn"
+            class="secondary hidden"
+            style="width:100%;margin-top:8px;"
+            onclick="resetDramaForm()">
+            Cancel Edit
+        </button>
+    </div>
+
+
+    <!-- EPISODE -->
+    <div class="section">
+
+        <h2>📺 Add Episode</h2>
+
+        <div class="grid">
+
+            <div class="field full">
+                <label>Select Drama</label>
+                <select id="episodeDrama">
+                    <option value="">Select a drama...</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Season Number</label>
+                <input id="seasonNumber" type="number" min="1" value="1">
+            </div>
+
+            <div class="field">
+                <label>Episode Number</label>
+                <input id="episodeNumber" type="number" min="1" placeholder="1">
+            </div>
+
+            <div class="field">
+                <label>Episode Title</label>
+                <input id="episodeTitle" placeholder="Episode 1">
+            </div>
+
+            <div class="field">
+                <label>Duration</label>
+                <input id="duration" placeholder="45 min">
+            </div>
+
+            <div class="field full">
+                <label>Episode Thumbnail URL</label>
+                <input id="episodeThumbnail" placeholder="https://...">
+            </div>
+
+            <div class="field full">
+                <label>Video URL</label>
+                <input id="videoUrl" placeholder="https://...">
+            </div>
+
+            <div class="field full">
+                <label>Episode Description</label>
+                <textarea id="episodeDescription" placeholder="Episode description..."></textarea>
+            </div>
+
+        </div>
+
+        <button class="primary" onclick="saveEpisode()">
+            ➕ Add Episode
+        </button>
+
+        <button
+            id="cancelEpisodeBtn"
+            class="secondary hidden"
+            style="width:100%;margin-top:8px;"
+            onclick="resetEpisodeForm()">
+            Cancel Edit
+        </button>
+
+    </div>
+
+
+    <!-- DRAMA LIST -->
+    <div class="section">
+        <h2>📚 Your Dramas</h2>
+        <div id="dramaList">Loading...</div>
+    </div>
+
+
+    <!-- ADS -->
+    <div class="section">
+        <h2>💰 Monetag SmartLinks</h2>
+
+        <div id="adsList">
+            Loading...
+        </div>
+
+        <button class="secondary" style="margin-top:10px;" onclick="addAd()">
+            ➕ Add New Ad Slot
+        </button>
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL =
+"https://qcqdduvrhqipcuqhlrhs.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_u2Cf_WlnX6jK6YuxNYuK9g_rYHpDo8o";
+
+const supabaseClient =
+supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const ADMIN_EMAIL =
+"akila2003sadaruwan@gmail.com";
+
+let editingEpisodeId = null;
+let dramas = [];
+
+
+function showMessage(text, error=false){
+
+    const el = document.getElementById("message");
+
+    el.textContent = text;
+    el.style.display = "block";
+
+    if(error){
+        el.style.background = "#571523";
+    }else{
+        el.style.background = "#183b26";
+    }
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+async function checkAdmin(){
+
+    const {
+        data:{session}
+    } = await supabaseClient.auth.getSession();
+
+    if(!session){
+        location.href = "login.html";
+        return false;
+    }
+
+    const email =
+        session.user.email || "";
+
+    if(email.toLowerCase() === ADMIN_EMAIL.toLowerCase()){
+        return true;
+    }
+
+    const {data,error} =
+        await supabaseClient.rpc("is_admin");
+
+    if(error || data !== true){
+        document.body.innerHTML = `
+            <div style="
+                min-height:100vh;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background:#08080b;
+                color:white;
+                padding:25px;
+                text-align:center;
+                font-family:Arial;
+            ">
+                <div>
+                    <h2 style="color:#ff1744;margin-bottom:10px;">
+                        Admin access required
+                    </h2>
+                    <p style="color:#aaa;margin-bottom:20px;">
+                        This account is not an administrator.
+                    </p>
+                    <button
+                        onclick="location.href='index.html'"
+                        style="
+                            padding:12px 20px;
+                            border:0;
+                            border-radius:9px;
+                            background:#ff1744;
+                            color:#fff;
+                            font-weight:bold;
+                        ">
+                        Back Home
+                    </button>
+                </div>
+            </div>
+        `;
+
+        return false;
+    }
+
+    return true;
+}
+
+
+async function saveDrama(){
+
+    const id =
+        document.getElementById("dramaId").value.trim();
+
+    const title =
+        document.getElementById("title").value.trim();
+
+    if(!title){
+        showMessage("Please enter a drama title.",true);
+        return;
+    }
+
+    const payload = {
+        title,
+        poster:document.getElementById("poster").value.trim(),
+        banner:document.getElementById("banner").value.trim(),
+        description:document.getElementById("description").value.trim(),
+        genre:document.getElementById("genre").value.trim(),
+        year:parseInt(document.getElementById("year").value) || null,
+        status:document.getElementById("status").value,
+        featured:document.getElementById("featured").checked,
+        trending:document.getElementById("trending").checked
+    };
+
+    let dramaId = id;
+
+    try{
+
+        if(id){
+
+            const {error} =
+                await supabaseClient
+                .from("dramas")
+                .update(payload)
+                .eq("id",id);
+
+            if(error) throw error;
+
+        }else{
+
+            const {data,error} =
+                await supabaseClient
+                .from("dramas")
+                .insert(payload)
+                .select("id")
+                .single();
+
+            if(error) throw error;
+
+            dramaId = data.id;
+        }
+
+
+        const password =
+            document.getElementById("password").value.trim();
+
+        const youtube =
+            document.getElementById("passwordYoutube").value.trim();
+
+
+        if(!dramaId){
+            throw new Error("Drama ID not found.");
+        }
+
+
+        const {error:passError} =
+            await supabaseClient.rpc(
+                "admin_set_drama_password",
+                {
+                    p_drama_id:parseInt(dramaId),
+                    p_password:password
+                }
+            );
+
+        if(passError){
+
+            console.warn(passError);
+
+            showMessage(
+                "Drama saved, but password could not be saved. Make sure admin_set_drama_password SQL function exists.",
+                true
+            );
+
+        }else{
+
+            const {error:youtubeError} =
+                await supabaseClient
+                .from("dramas")
+                .update({
+                    password_youtube_url:youtube
+                })
+                .eq("id",dramaId);
+
+            if(youtubeError) throw youtubeError;
+
+            showMessage(
+                id ? "Drama updated successfully!" :
+                     "Drama added successfully!"
+            );
+        }
+
+
+        resetDramaForm();
+        await loadDramas();
+
+    }catch(error){
+
+        console.error(error);
+
+        showMessage(
+            error.message || "Could not save drama.",
+            true
+        );
+    }
+}
+
+
+async function loadDramas(){
+
+    const {data,error} =
+        await supabaseClient
+        .from("dramas")
+        .select("*")
+        .order("created_at",{ascending:false});
+
+    if(error){
+
+        console.error(error);
+
+        document.getElementById("dramaList").innerHTML =
+            `<p style="color:#ff5b76">${error.message}</p>`;
+
+        return;
+    }
+
+    dramas = data || [];
+
+    const select =
+        document.getElementById("episodeDrama");
+
+    select.innerHTML =
+        `<option value="">Select a drama...</option>`;
+
+    dramas.forEach(d => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = d.id;
+        option.textContent = d.title;
+
+        select.appendChild(option);
+    });
+
+
+    const list =
+        document.getElementById("dramaList");
+
+    if(!dramas.length){
+
+        list.innerHTML =
+            `<p class="muted">No dramas added yet.</p>`;
+
+        return;
+    }
+
+
+    list.innerHTML = "";
+
+    dramas.forEach(d => {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "drama-card";
+
+        card.innerHTML = `
+            <div class="drama-top">
+
+                <img
+                    class="drama-poster"
+                    src="${escapeHtml(d.poster || '')}"
+                    onerror="this.style.opacity='.3'"
+                >
+
+                <div class="drama-info">
+
+                    <div class="drama-title">
+                        ${escapeHtml(d.title)}
+                    </div>
+
+                    <div class="muted">
+                        ${escapeHtml(d.genre || '')}
+                        ${d.year ? " • "+d.year : ""}
+                        • ${escapeHtml(d.status || "")}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                    class="secondary"
+                    onclick="editDrama(${d.id})">
+                    ✏️ Edit
+                </button>
+
+                <button
+                    class="secondary"
+                    onclick="toggleEpisodes(${d.id})">
+                    📺 Episodes
+                </button>
+
+                <button
+                    class="danger"
+                    onclick="deleteDrama(${d.id})">
+                    🗑 Delete
+                </button>
+
+                <button
+                    class="secondary"
+                    onclick="window.open('drama.html?id=${d.id}','_blank')">
+                    👁 View
+                </button>
+
+            </div>
+
+            <div
+                id="episodes-${d.id}"
+                class="episode-area">
+            </div>
+        `;
+
+        list.appendChild(card);
+    });
+}
+
+
+async function editDrama(id){
+
+    const drama =
+        dramas.find(d => Number(d.id) === Number(id));
+
+    if(!drama) return;
+
+    document.getElementById("dramaId").value =
+        drama.id;
+
+    document.getElementById("title").value =
+        drama.title || "";
+
+    document.getElementById("poster").value =
+        drama.poster || "";
+
+    document.getElementById("banner").value =
+        drama.banner || "";
+
+    document.getElementById("description").value =
+        drama.description || "";
+
+    document.getElementById("genre").value =
+        drama.genre || "";
+
+    document.getElementById("year").value =
+        drama.year || "";
+
+    document.getElementById("status").value =
+        drama.status || "Ongoing";
+
+    document.getElementById("featured").checked =
+        !!drama.featured;
+
+    document.getElementById("trending").checked =
+        !!drama.trending;
+
+    document.getElementById("password").value = "";
+
+    document.getElementById("passwordYoutube").value =
+        drama.password_youtube_url || "";
+
+    document.getElementById("cancelDramaBtn")
+        .classList.remove("hidden");
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+function resetDramaForm(){
+
+    document.getElementById("dramaId").value = "";
+    document.getElementById("title").value = "";
+    document.getElementById("poster").value = "";
+    document.getElementById("banner").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("genre").value = "";
+    document.getElementById("year").value = "";
+    document.getElementById("status").value = "Ongoing";
+    document.getElementById("featured").checked = false;
+    document.getElementById("trending").checked = false;
+    document.getElementById("password").value = "";
+    document.getElementById("passwordYoutube").value = "";
+
+    document.getElementById("cancelDramaBtn")
+        .classList.add("hidden");
+}
+
+
+async function deleteDrama(id){
+
+    if(!confirm(
+        "Delete this drama and all its episodes?"
+    )) return;
+
+    const {error} =
+        await supabaseClient
+        .from("dramas")
+        .delete()
+        .eq("id",id);
+
+    if(error){
+
+        showMessage(error.message,true);
+        return;
+    }
+
+    showMessage("Drama deleted.");
+
+    await loadDramas();
+}
+
+
+async function saveEpisode(){
+
+    const dramaId =
+        document.getElementById("episodeDrama").value;
+
+    const season =
+        parseInt(
+            document.getElementById("seasonNumber").value
+        );
+
+    const episode =
+        parseInt(
+            document.getElementById("episodeNumber").value
+        );
+
+    const title =
+        document.getElementById("episodeTitle").value.trim();
+
+    const video =
+        document.getElementById("videoUrl").value.trim();
+
+    if(!dramaId){
+        showMessage("Select a drama.",true);
+        return;
+    }
+
+    if(!season || season < 1){
+        showMessage("Enter a valid season number.",true);
+        return;
+    }
+
+    if(!episode || episode < 1){
+        showMessage("Enter a valid episode number.",true);
+        return;
+    }
+
+    if(!video){
+        showMessage("Enter the video URL.",true);
+        return;
+    }
+
+
+    const payload = {
+
+        drama_id:parseInt(dramaId),
+
+        season_number:season,
+
+        episode_number:episode,
+
+        title:title || `Episode ${episode}`,
+
+        thumbnail:
+            document.getElementById("episodeThumbnail").value.trim(),
+
+        video_url:video,
+
+        duration:
+            document.getElementById("duration").value.trim(),
+
+        description:
+            document.getElementById("episodeDescription").value.trim(),
+
+        password_hash:"legacy_episode_no_password"
+    };
+
+
+    try{
+
+        let result;
+
+        if(editingEpisodeId){
+
+            result =
+                await supabaseClient
+                .from("episodes")
+                .update(payload)
+                .eq("id",editingEpisodeId);
+
+        }else{
+
+            result =
+                await supabaseClient
+                .from("episodes")
+                .insert(payload);
+        }
+
+
+        if(result.error) throw result.error;
+
+        showMessage(
+            editingEpisodeId ?
+            "Episode updated successfully!" :
+            "Episode added successfully!"
+        );
+
+        resetEpisodeForm();
+
+        await toggleEpisodes(
+            parseInt(dramaId),
+            true
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        showMessage(
+            error.message || "Could not save episode.",
+            true
+        );
+    }
+}
+
+
+async function toggleEpisodes(id, forceOpen=false){
+
+    const box =
+        document.getElementById(`episodes-${id}`);
+
+    if(!box) return;
+
+    if(box.style.display === "block" && !forceOpen){
+
+        box.style.display = "none";
+        return;
+    }
+
+    box.style.display = "block";
+    box.innerHTML = "Loading episodes...";
+
+
+    const {data,error} =
+        await supabaseClient
+        .from("episodes")
+        .select("*")
+        .eq("drama_id",id)
+        .order("season_number",{ascending:true})
+        .order("episode_number",{ascending:true});
+
+
+    if(error){
+
+        box.innerHTML =
+            `<p style="color:#ff5b76">${error.message}</p>`;
+
+        return;
+    }
+
+
+    if(!data || !data.length){
+
+        box.innerHTML =
+            `<p class="muted">No episodes added yet.</p>`;
+
+        return;
+    }
+
+
+    let html = "";
+
+    let currentSeason = null;
+
+    data.forEach(ep => {
+
+        if(currentSeason !== ep.season_number){
+
+            currentSeason = ep.season_number;
+
+            html += `
+                <div class="season-title">
+                    Season ${ep.season_number}
+                </div>
+            `;
+        }
+
+
+        html += `
+            <div class="episode">
+
+                <img
+                    src="${escapeHtml(ep.thumbnail || '')}"
+                    onerror="this.style.opacity='.3'"
+                >
+
+                <div class="episode-info">
+
+                    <b>
+                        Episode ${ep.episode_number}
+                    </b>
+
+                    <div class="muted">
+                        ${escapeHtml(ep.title || "")}
+                        ${ep.duration ? " • "+escapeHtml(ep.duration) : ""}
+                    </div>
+
+                </div>
+
+                <button
+                    class="secondary"
+                    onclick="editEpisode(${ep.id})">
+                    ✏️
+                </button>
+
+                <button
+                    class="danger"
+                    onclick="deleteEpisode(${ep.id},${id})">
+                    🗑
+                </button>
+
+            </div>
+        `;
+    });
+
+
+    box.innerHTML = html;
+}
+
+
+async function editEpisode(id){
+
+    const {data,error} =
+        await supabaseClient
+        .from("episodes")
+        .select("*")
+        .eq("id",id)
+        .single();
+
+    if(error){
+
+        showMessage(error.message,true);
+        return;
+    }
+
+
+    editingEpisodeId = id;
+
+    document.getElementById("episodeDrama").value =
+        data.drama_id;
+
+    document.getElementById("seasonNumber").value =
+        data.season_number || 1;
+
+    document.getElementById("episodeNumber").value =
+        data.episode_number || 1;
+
+    document.getElementById("episodeTitle").value =
+        data.title || "";
+
+    document.getElementById("episodeThumbnail").value =
+        data.thumbnail || "";
+
+    document.getElementById("videoUrl").value =
+        data.video_url || "";
+
+    document.getElementById("duration").value =
+        data.duration || "";
+
+    document.getElementById("episodeDescription").value =
+        data.description || "";
+
+    document.querySelector(
+        "#cancelEpisodeBtn"
+    ).classList.remove("hidden");
+
+    document.querySelector(
+        ".section:nth-of-type(2)"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+}
+
+
+function resetEpisodeForm(){
+
+    editingEpisodeId = null;
+
+    document.getElementById("seasonNumber").value = 1;
+    document.getElementById("episodeNumber").value = "";
+    document.getElementById("episodeTitle").value = "";
+    document.getElementById("episodeThumbnail").value = "";
+    document.getElementById("videoUrl").value = "";
+    document.getElementById("duration").value = "";
+    document.getElementById("episodeDescription").value = "";
+
+    document.getElementById("cancelEpisodeBtn")
+        .classList.add("hidden");
+}
+
+
+async function deleteEpisode(id,dramaId){
+
+    if(!confirm("Delete this episode?")) return;
+
+    const {error} =
+        await supabaseClient
+        .from("episodes")
+        .delete()
+        .eq("id",id);
+
+    if(error){
+
+        showMessage(error.message,true);
+        return;
+    }
+
+    showMessage("Episode deleted.");
+
+    await toggleEpisodes(dramaId,true);
+}
+
+
+async function loadAds(){
+
+    const box =
+        document.getElementById("adsList");
+
+    const {data,error} =
+        await supabaseClient
+        .from("ads")
+        .select("*")
+        .order("id",{ascending:true});
+
+    if(error){
+
+        box.innerHTML =
+            `<p style="color:#ff5b76">${error.message}</p>`;
+
+        return;
+    }
+
+
+    box.innerHTML = "";
+
+
+    if(!data || !data.length){
+
+        box.innerHTML =
+            `<p class="muted">No ad slots yet.</p>`;
+
+        return;
+    }
+
+
+    data.forEach(ad => {
+
+        const row =
+            document.createElement("div");
+
+        row.className = "ad-row";
+
+        row.innerHTML = `
+
+            <input
+                id="ad-${ad.id}"
+                value="${escapeHtml(ad.smartlink_url || '')}"
+                placeholder="${escapeHtml(ad.ad_name)} SmartLink">
+
+            <button
+                class="secondary"
+                onclick="saveAd(${ad.id})">
+                Save ${escapeHtml(ad.ad_name)}
+            </button>
+
+        `;
+
+        box.appendChild(row);
+    });
+}
+
+
+async function saveAd(id){
+
+    const value =
+        document.getElementById(`ad-${id}`).value.trim();
+
+    const {error} =
+        await supabaseClient
+        .from("ads")
+        .update({
+            smartlink_url:value,
+            updated_at:new Date().toISOString()
+        })
+        .eq("id",id);
+
+    if(error){
+
+        showMessage(error.message,true);
+        return;
+    }
+
+    showMessage("Ad SmartLink saved.");
+}
+
+
+async function addAd(){
+
+    const name =
+        prompt("Enter new ad slot name:", "ADS-05");
+
+    if(!name) return;
+
+    const {error} =
+        await supabaseClient
+        .from("ads")
+        .insert({
+            ad_name:name.trim(),
+            smartlink_url:"",
+            enabled:true
+        });
+
+    if(error){
+
+        showMessage(error.message,true);
+        return;
+    }
+
+    await loadAds();
+
+    showMessage("New ad slot added.");
+}
+
+
+async function logout(){
+
+    await supabaseClient.auth.signOut();
+
+    location.href = "login.html";
+}
+
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+async function init(){
+
+    const ok = await checkAdmin();
+
+    if(!ok) return;
+
+    await loadDramas();
+    await loadAds();
+}
+
+
+init();
+</script>
+
+</body>
+</html>
